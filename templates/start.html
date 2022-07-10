@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>HELLO CLIENT</h1>
+    <p id="userAgent"></p>
+
+    <script>
+      var htmlUpdate = document.getElementById('userAgent');
+      var agent = '{{ userAgent|safe }}';
+      htmlUpdate.textContent = "I know you are using " + agent;
+    </script>
+  </body>
+</html>
