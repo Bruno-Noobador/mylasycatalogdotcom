@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Cadastro de Novos Produtos</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for('static', filename='Produtos/produtos.css') }}'>
+</head>
+
+<body>
+    <div class="Principal">
+        <div class="imagem">
+            <img src="{{ url_for('static', filename='Produtos/logo.png') }}" alt="compra" width="250px" height="200px"/>
+        </div>
+        <form action="/cadastro_test" method="post" enctype=multipart/form-data> 
+            <div class="titulo">
+                <h1>Novos Produtos</h1>
+            </div>
+            <div>
+                <label for="nome">Nome do produto:</label>
+                <input type="text" name="produto" id="produto" required>
+            </div>
+            <div>
+                <label for="nome">Valor do produto:</label>
+                <input type="text" id="valor" required>
+            </div>
+            <div>
+                <label for="nome">Telefone para contato:</label>
+                <input type="tel" id="telefone" required>
+            </div>
+            <div>
+                <label for="nome">Email para contato:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div>
+                <label for="nome">Imagem do produto:</label>
+                <input type="file" name="imagem" id="imagem" required>
+            </div>
+            <div>
+                <button>Enviar</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+.catalogo{
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  grid-gap: 5px;
+  border-radius: 15px;
+}
+
+.img{
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  border: double #aa433e 2px;
+}
+
+.itens{
+  background-color: #ce8181;
+  display: grid;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.valor{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  color: #000000;
+}

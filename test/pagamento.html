@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel='stylesheet' type='text/css' media='screen' href='pagamento.css'>
+    <script scr="pagamento.js"></script>
+
+    <title>Forma de pagamento</title>
+</head>
+<body>
+    <div class="container">
+        <div class="total-logo">
+          <div class="total">
+            <span>Total:</span>
+            <span class="total-n"> R$ 205,50 </span>
+          </div>
+          <div class="logo">
+            <h4>MyLasyCatalogDotCom.net</h4>
+          </div>
+        </div>
+      
+        <div class="step">
+          <div class="retry">Retry</div>
+          <div class="line"></div>
+          <div class="payment">Payment</div>
+        </div>
+      
+        <div class="cont-forms">
+          <form class="form" autocomplete="off" novalidate>
+            <fieldset class="card-number">
+              <label for="card-num">Número do cartão de crédito</label>
+              <div class="flex-wrapper">
+                <input class="cc-number" type="num" maxlength="4" />
+                <input class="cc-number" type="num" maxlength="4" />
+                <input class="cc-number" type="num" maxlength="4" />
+                <input class="cc-number" type="num" maxlength="4" />
+              </div>
+            </fieldset>
+            <fieldset class="card-holder">
+              <label for="card-num">Titular do cartão de crédito</label>
+              <input type="text" />
+            </fieldset>
+            <fieldset class="card-expiration">
+              <div class="expiry-ccv">
+                <div class="cont expiration-date">
+                  <label for="card-num">Data de validade</label>
+                  <input type="numb" maxlength="2" />
+                  <input class="last" type="num" maxlength="4" />
+                </div>
+                <div class="cont ccv">
+                  <label for="card-ccv">ccv</label>
+                  <input type="num" maxlength="3" />
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="conf-button">
+              <div class="flex-wrapper">
+                <button class="purchase"><span>Confirmar pagamento</span></button>
+                <div class="or-element"><span>- ou -<span></div>
+                <button class="applepay"><span>Faça pix</span></button>
+                </div>
+            </fieldset>
+          </form>
+          </div>
+          <div class="button-cart">
+            <img class="icon-cart" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/163884/icona-shop.svg">
+            <div class="product-in-cart"><span>3</span></div>
+          </div>
+        </div>
+        <div class="cont-product">
+          <div class="product first">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/163884/bag-vans.jpg" />
+            <div class="cont-options">
+            <div class="quantity">
+              <button class="plus">+</button>
+              <span class="num">1</span>
+              <button class="minus">-</button>
+            </div>
+            <button class="remove">Remover</button>
+          </div>
+          </div>
+          <div class="product second">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/163884/shoes-green.jpg"></img>
+          <div class="cont-options">
+            <div class="quantity">
+              <button class="plus">+</button>
+              <span class="num">1</span>
+              <button class="minus">-</button>
+            </div>
+            <button class="remove">Remover</button>
+          </div>
+          </div>
+          <div class="product third">
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/163884/shoes-pink.jpg"></img>
+          <div class="cont-options">
+            <div class="quantity">
+              <button class="plus">+</button>
+              <span class="num">1</span>
+              <button class="minus">-</button>
+            </div>
+            <button class="remove">Remover</button>
+          </div>
+          </div>
+
+        </div>
+</body>
+</html>

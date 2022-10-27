@@ -1,12 +1,14 @@
-from flask import Flask, request, render_template
-import json
+from flask import Flask, request, render_template, send_file
 from csv import writer
 import sqlite3
+import os
+from werkzeug.utils import secure_filename
 
 con = sqlite3.connect('database/users.db', check_same_thread=False)
 c = con.cursor()
 
 app = Flask(__name__)
+UPLOAD_FOLDER = os.path.join(os.getcwd(), "database\Produtos_imgs")
 
 @app.route('/start', methods=['GET'])
 def start():
@@ -101,6 +103,32 @@ def index5():
     mensagem = 'logado como: ' + str(logado_como) + '\n' + str(response)
 
     return mensagem
+
+@app.route('/test', methods=['GET'])
+def index6():
+
+    return(render_template('Busca/busca.html'))
+
+@app.route('/cadastro_test', methods=['GET', 'POST'])
+def index7():
+
+    if request.method == 'GET':
+        return(render_template('Produtos/produtos.html'))
+
+    if request.method == 'POST':
+
+        print(request.headers)
+        print(request.form)
+
+        file = request.files['imagem']
+        savePath = os.path.join(UPLOAD_FOLDER, secure_filename(file.filename))
+        file.save(savePath)
+        
+        #test is being used for this never for something else
+        
+        return send_file(savePath)
+        
+            
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
