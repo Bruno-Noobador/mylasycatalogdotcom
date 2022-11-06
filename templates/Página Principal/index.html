@@ -13,11 +13,11 @@
   <header class="cabecalho">
     <img class="cabecalho-imagem" src="{{ url_for('static', filename='Página Principal/logo.png') }}" alt="Logo da comunidade Ballerini">
     <nav class="cabecalho-menu">
-      <div id="divBusca">
+      <form action="/test" id="divBusca" method="post">
         <img src="{{ url_for('static', filename='Página Principal/lupa.png') }}" alt="Buscar..."/>
-        <input type="text" id="txtBusca" placeholder="Pesquisar por produtos, equipamentos, marcas e entre diversos outros..." />
+        <input name="busca" type="text" id="txtBusca" placeholder="Pesquisar por produtos, equipamentos, marcas e entre diversos outros..." />
         <button id="btnBusca">Buscar</button>
-      </div>
+      </form>
     </nav>
   </header>
   <main class="meio">

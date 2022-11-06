@@ -10,16 +10,25 @@
 <body>
     <div class="catalogo">
 
-        {% for n in range (5)%}
-            
-        <p>{{n}}</p>
-        
+        {% for produto in produtos %}
+
+            <div class="itens">
+                <img src='{{ url_for('download_file', filename=produto.filename) }}' class="img">
+                <h4>{{ produto.nome }}</h4>
+                <h3 class="valor">R$ {{ produto.valor }}</h3>
+            </div>
+
         {%endfor%}
 
-        <div class="itens"><img src="https://images-americanas.b2w.io/produtos/01/00/img/19602/9/19602908_1SZ.jpg" class="img">
-            <h4>Nome do produto</h4>
-            <h3 class="valor">Valor: </h3>
-      </div>
+        {% if produtos |length == 0 %}
+            <script>
+                alert("Nenhum produto encontrado \nTente novamente")
+                history.back()
+            </script>
+                
+        {% endif %}
+
+    </div>
 </body>
 
 </html>
