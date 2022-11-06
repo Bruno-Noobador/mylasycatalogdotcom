@@ -3,7 +3,7 @@ from csv import writer
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
-from libs import User, Product, parseId, getFileExtention
+from libs import User, Product, parseId, getFileExtention, parseName
 
 con = sqlite3.connect('database/data.db', check_same_thread=False)
 c = con.cursor()
@@ -186,10 +186,8 @@ def index7():
         telefone = reqData[2]
         email = reqData[3]
         status = 'Disponivel'
-        filename = "temp_name"
+        # filename = "temp_name"
 
-        c.execute(f'INSERT INTO produtos (nome, valor, telefone, email, status, imagem_nome) VALUES ("{nome}", "{valor}", "{telefone}", "{email}", "{status}", "{filename}")')
-        con.commit()
 
         c.execute('''SELECT MAX(id) FROM produtos''')
         response = c.fetchall()
@@ -201,11 +199,17 @@ def index7():
 
         fileExtention = getFileExtention (file.filename)
 
-        filename = secure_filename(f'{id}_{nome}.{fileExtention}')
+        filename = secure_filename(f'{id+1}_{nome}.{fileExtention}')
         print(filename)
 
-        c.execute(f'UPDATE produtos SET imagem_nome = "{filename}" WHERE id = {id}')
+        c.execute(f'SELECT nome FROM produtos WHERE id = {id}')
+        response = c.fetchall()
+        nome_banco = parseName (response)
 
+        print(f'nome banco {nome_banco}')
+
+        c.execute(f'INSERT INTO produtos (nome, valor, telefone, email, status, imagem_nome) VALUES ("{nome}", "{valor}", "{telefone}", "{email}", "{status}", "{filename}")')
+        con.commit()
 
         file.filename = filename
         savePath = os.path.join(UPLOAD_FOLDER, filename)
