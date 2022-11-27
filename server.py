@@ -134,6 +134,14 @@ def index5():
     if len(response) == 0:
         c.execute(f'SELECT * FROM vendedores WHERE (nome = "{input1}" OR email = "{input1}") AND senha = "{senha}"')
         response = c.fetchall()
+        
+        if len(response) == 0:
+            return '''
+            <script>
+                alert('Nenhum usuário encontrado. Tente novamente')
+                history.back()
+            </script>'''
+        
         id = parseId(response)
 
         user.id = id
