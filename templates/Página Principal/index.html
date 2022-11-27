@@ -82,24 +82,17 @@
       
     </main>
     <div class="catalogo">
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/01/00/img/19602/9/19602908_1SZ.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/01/00/img/117966/0/117966052_1SZ.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/4399487850/imagens/jogo-5-panelas-luxo-aluminio-cacarolas-reforcado-a-88/4399487850_1_xlarge.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/4709592568/imagens/quem-somos-a-condessa-cosmeticos-e-perfumaria-localizada-em-goiania-go-e-especialista-nas-melhores-marcas-de-cosmeticos-perfumes-e-maquiagens-com-loja-fisica-e-presenca-no-ecommerce-e-marketplaces-oferecendo-produtos-de-qualidade-com-garantia-otimo-a/4709592568_1_large.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/01/00/item/337/9/337917SZ.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
-      <div class="itens"><img src="https://images-americanas.b2w.io/produtos/01/00/img/1571842/4/1571842498_1SZ.jpg" class="img">
-      <h3 class="valor">Valor: </h3>
-      </div>
+
+        {% for produto in produtos %}
+
+            <div class="itens">
+                <img src='{{ url_for('download_file', filename=produto.filename) }}' class="img">
+                <h4>{{ produto.nome }}</h4>
+                <h3 class="valor">R$ {{ produto.valor }}</h3>
+            </div>
+
+        {%endfor%}
+
     </div>
   </main>
   

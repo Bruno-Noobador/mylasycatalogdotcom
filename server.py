@@ -20,8 +20,34 @@ def start():
 @app.route('/', methods=['GET'])
 def index():
     #print(request.headers)
+
+    produtos = []
+
     userAgent = str(request.headers['User-Agent'])
-    return(render_template('Página Principal/index.html', userAgent = userAgent))
+    
+    c.execute(f'SELECT * FROM produtos ORDER BY id DESC LIMIT 6')
+    response = c.fetchall()
+    
+    print(f'response: {response}')
+    
+    for produto in response:
+
+            id = produto[0]
+            nome = produto[1]
+            valor = produto[2]
+            telefone = produto[3]
+            email = produto[4]
+            status = produto[5]
+            filename = produto[6]
+            
+            produto = Product(id, nome, valor, telefone, email, status, filename)
+
+            produtos.append(produto)
+            # print(f'Filename: {produto.filename}')
+
+    print(f'produtos: {produtos}')
+
+    return(render_template('Página Principal/index.html', produtos=produtos))
 
 @app.route('/register_cliente', methods=['GET'])
 def index1():
