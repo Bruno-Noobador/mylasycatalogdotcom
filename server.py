@@ -283,7 +283,14 @@ def index7():
         
         #test is being used for this never for something else
         
-        return send_file(savePath)
+        
+        # return send_file(savePath)
+        
+        return '''
+        <script>
+            alert('Produto Cadastrado com sucesso')
+            location.href = "/";
+        </script>'''
         
 
 @app.route('/perfil', methods=['GET', 'POST'])
@@ -351,6 +358,7 @@ def perfil():
 @app.route('/clean', methods=['GET'])
 def clean():
     session.pop("user", None)
+    session.pop('produto', None)
     return '''
         <script>
                 alert('Usuario saiu de sessão')
@@ -367,6 +375,13 @@ def site_em_desenvolvimento():
 
 @app.route('/pagamento+<produto_id>', methods=['GET'])
 def pagamento(produto_id):
+
+    if 'user' not in session:
+        return '''
+        <script>
+                alert('Usuário não logado. Faça login para poder comprar.')
+                location.href = "/";
+        </script>'''
 
     if eval(session['user'])['tipo'] == "vendedor":
         return '''
@@ -391,6 +406,13 @@ def pagamento(produto_id):
 
         produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
     
+    if produto.status == 'Vendido':
+        return '''
+        <script>
+                alert('Produto não disponível')
+                history.back();
+        </script>'''
+
     session['produto'] = produto.toJSON()
     print(eval(session['produto']))
 
@@ -409,6 +431,8 @@ def check_pagamento():
     cliente_id = cliente['id']
     c.execute(f'UPDATE produtos SET status = "Vendido ,vendedor_id:{vendedor_id}; cliente_id:{cliente_id}" WHERE id={id}')
     con.commit()
+
+    session.pop('produto', None)
 
     return '''
         <script>
