@@ -38,17 +38,17 @@
         <div class="panel active" style="background-image: url({{ url_for('static', filename='Página Principal/Promocoes.png') }}); width: 200px; height: 300px;">
           <h3>1</h3>
         </div>
-        <div class="panel" style="background-image: url('https://images-americanas.b2w.io/produtos/01/00/img/117966/0/117966052_1SZ.jpg'); width: 200px; height: 300px;">
-          <h3>2</h3>
+        <div class="panel" style="background-image: url({{ url_for('download_file', filename= produtos_promocao[0].filename ) }}); width: 200px; height: 300px;">
+          <h3>{{produtos_promocao[0].nome}}</h3>
         </div>
-        <div class="panel" style="background-image: url('https://images-americanas.b2w.io/produtos/4399487850/imagens/jogo-5-panelas-luxo-aluminio-cacarolas-reforcado-a-88/4399487850_1_xlarge.jpg'); width: 200px; height: 300px;">
-          <h3>3</h3>
+        <div class="panel" style="background-image: url({{ url_for('download_file', filename= produtos_promocao[1].filename ) }}); width: 200px; height: 300px;">
+          <h3>{{produtos_promocao[1].nome}}</h3>
         </div>
-        <div class="panel" style="background-image: url('https://images-americanas.b2w.io/produtos/4709592568/imagens/quem-somos-a-condessa-cosmeticos-e-perfumaria-localizada-em-goiania-go-e-especialista-nas-melhores-marcas-de-cosmeticos-perfumes-e-maquiagens-com-loja-fisica-e-presenca-no-ecommerce-e-marketplaces-oferecendo-produtos-de-qualidade-com-garantia-otimo-a/4709592568_1_large.jpg'); width: 200px; height: 300px;">
-          <h3>4</h3>
+        <div class="panel" style="background-image: url({{ url_for('download_file', filename= produtos_promocao[2].filename ) }}); width: 200px; height: 300px;">
+          <h3>{{produtos_promocao[2].nome}}</h3>
         </div>
-        <div class="panel" style="background-image: url('https://images-americanas.b2w.io/produtos/01/00/item/337/9/337917SZ.jpg'); width: 200px; height: 300px;">
-          <h3>5</h3>
+        <div class="panel" style="background-image: url({{ url_for('download_file', filename= produtos_promocao[3].filename ) }}); width: 200px; height: 300px;">
+          <h3>{{produtos_promocao[3].nome}}</h3>
         </div>
         <script src="{{ url_for('static', filename='Página Principal/script.js') }}"></script>
       </div>

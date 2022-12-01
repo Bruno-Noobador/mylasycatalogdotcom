@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, send_from_directory, session, jsonify
+from flask import Flask, request, render_template, send_file, send_from_directory, session, jsonify, url_for
 from csv import writer
 import sqlite3
 import os
@@ -23,6 +23,10 @@ def start():
 def index():
     #print(request.headers)
 
+    produtos_promocao = get_produto()
+    print(produtos_promocao)
+
+    
     produtos = []
 
     userAgent = str(request.headers['User-Agent'])
@@ -52,7 +56,7 @@ def index():
 
     print(f'produtos: {produtos}')
 
-    return(render_template('Página Principal/index.html', produtos=produtos, session=session))
+    return(render_template('Página Principal/index.html', produtos=produtos, session=session, produtos_promocao=produtos_promocao))
 
 @app.route('/register_cliente', methods=['GET'])
 def index1():
@@ -411,7 +415,23 @@ def check_pagamento():
                 alert('Compra realizada com sucesso')
                 location.href = "/";
         </script>'''
+
+@app.route('/img_test')
+def get_produto():
     
+    c.execute('SELECT * FROM produtos WHERE nome!="test" AND nome!="amongus" AND nome!="seila" AND nome!="aaaa" ORDER BY RANDOM() LIMIT 4')
+    response = c.fetchall()
+    
+    produtos = []
+
+    for produto in response:
+        filename = produto[6]
+        nome = produto[1]
+        
+        produto = Product(None, nome, None, None, None, None, None, filename)
+        produtos.append(produto)
+
+    return produtos
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
