@@ -53,33 +53,51 @@
         <script src="{{ url_for('static', filename='Página Principal/script.js') }}"></script>
       </div>
       <div class="conteudo-principal">
+
         <form action="/login" method="post"> 
-          <div class="titulo">
-            <h3>MyLasyCatalogDotCom.ne</h3>
+        {% if not "user" in session%}
+
+        <div class="titulo">
+          <h3>MyLasyCatalogDotCom.ne</h3>
+        </div>
+        <div class="inserir">
+          <div class="campo">
+            <label for="nome">Usuário:</label>
+            <input type="text" name="nome" id="nome" required>
           </div>
-          <div class="inserir">
-            <div class="campo">
-              <label for="nome">Usuário:</label>
-              <input type="text" name="nome" id="nome" required>
-            </div>
-            <div class="campo">
-              <label for="senha">Senha:</label>
-              <input type="password" name="senha" id="senha" required>
-            </div>
-            <div>
-              <button>Enviar</button>
-            </div>
+          <div class="campo">
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha" id="senha" required>
           </div>
-          <div class="cadastro">
-            <section class="Informacoes">
-              <div><label>Cadastre-se como:</label></div>
-              <div><a href="/register_cliente" class="it">Cliente</a></div>
-              <div><a href="/register_vendedor" class="it">Vendedor</a></div>
-            </section>
+          <div>
+            <button>Enviar</button>
           </div>
-        </form>
+        </div>
+        <div class="cadastro">
+          <section class="Informacoes">
+            <div><label>Cadastre-se como:</label></div>
+            <div><a href="/register_cliente" class="it">Cliente</a></div>
+            <div><a href="/register_vendedor" class="it">Vendedor</a></div>
+          </section>
+        </div>
+
+        {% elif "user" in session%}
+
+        <div class="principal">
+          <div class="imagem">
+              <img src="{{ url_for('static', filename='Perfil/logo.png') }}" alt="compra" width="150px" height="100px"/>
+          </div>
+          <div class="informacoes">
+              <h2 class="x">Seu perfil</h2>
+              <br/>
+              <a class="atualizar" href="/perfil">Clique para abrir o seu perfil</a>
       </div>
-      
+        
+        {%endif%}
+        
+      </form>
+    </div>
+
     </main>
     <div class="catalogo">
 

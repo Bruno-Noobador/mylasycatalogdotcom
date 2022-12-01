@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, json
 
 con = sqlite3.connect('database/data.db', check_same_thread=False)
 c = con.cursor()
@@ -21,8 +21,12 @@ class User:
         response = c.fetchall()
         return str ((str (response[0]).split(',')[0]).replace('(', '').replace("'", ""))
 
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
+
 class Product:
-    def __init__ (self, id, nome, valor, telefone, email, status, filename):
+    def __init__ (self, id, nome, valor, telefone, email, status, vendedorId, filename):
         self.id = id
         self.nome = nome
         self.valor = valor
@@ -30,6 +34,11 @@ class Product:
         self.email = email
         self.status = status
         self.filename = filename
+        self.vendedorId = vendedorId
+
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, 
+            sort_keys=True, indent=4)
 
 
 def parseId (database_response) -> int:
@@ -64,3 +73,14 @@ def getFileExtention (filename) -> str:
     fileExtention = str (garbage [-1])
 
     return fileExtention
+
+def parseStatus(status:str) -> str:
+    
+    realStatus = str(status.split(' ')[0])
+    return realStatus
+
+def parseVendedorId(status:str) -> int:
+    
+    vendedoriD = int(status.split(':')[1].split(';')[0])
+    return vendedoriD
+    

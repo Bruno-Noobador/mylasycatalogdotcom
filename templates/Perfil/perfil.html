@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>Página de Perfil</title>
+    <link rel='stylesheet' type='text/css' media='screen' href="{{ url_for('static', filename='Perfil/perfil.css') }}">
+</head>
+
+<body>
+    <main class="conteudo">
+        <div class="principal">
+            <div class="imagem">
+                <img src="{{ url_for('static', filename='Perfil/logo.png') }}" alt="compra" width="150px" height="100px"/>
+            </div>
+            <div class="informacoes">
+                <h2 class="x">{{user['nome']}}</h2>
+                <h4 class="x">{{user['email']}}</h4>
+                
+                {%if user['tipo'] == "client"%}
+                <a class="atualizar" href="{{url_for('site_em_desenvolvimento')}}">Atualizar perfil {{user['tipo']}}</a>
+                
+                {%elif user['tipo'] == "vendedor"%}
+                <a class="atualizar" href="/cadastro_test">Adicionar produto</a>
+
+                {%endif%}
+                <a class="atualizar" href="/clean">Sair de login</a>
+        </div>
+    </main>
+    <main>
+        <div class="produtos">
+
+            {% for produto in produtos %}
+
+            <div class="itens">
+                <img src='{{ url_for('download_file', filename=produto.filename) }}' class="img">
+                <h4>{{ produto.nome }}</h4>
+                <h3 class="valor">R$ {{ produto.valor }}</h3>
+            </div>
+
+            {%endfor%}
+
+        </div>
+    </main>
+</body>
+
+</html>

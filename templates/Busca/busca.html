@@ -16,6 +16,7 @@
                 <img src='{{ url_for('download_file', filename=produto.filename) }}' class="img">
                 <h4>{{ produto.nome }}</h4>
                 <h3 class="valor">R$ {{ produto.valor }}</h3>
+                <button id="btnBusca" onclick=" location.href = '/pagamento+{{produto.id}}' ">Comprar</button>
             </div>
 
         {%endfor%}

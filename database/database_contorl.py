@@ -35,15 +35,15 @@ c = con.cursor()
 # c.execute(f'INSERT INTO produtos (id) VALUES (1)')
 # con.commit()
 
-# c.execute('''SELECT * FROM clientes''')
-# response = c.fetchall()
-# print('\nClientes data:\n', response)
+c.execute('''SELECT * FROM clientes''')
+response = c.fetchall()
+print('\nClientes data:\n', response)
 
-# c.execute('''SELECT * FROM vendedores''')
-# response = c.fetchall()
-# print('\nVendedores data:\n', response)
+c.execute('''SELECT * FROM vendedores''')
+response = c.fetchall()
+print('\nVendedores data:\n', response)
 
-# c.execute(f'UPDATE produtos SET imagem_nome = "5_Carro_Rosa.jpg" WHERE id=5')
+# c.execute(f'UPDATE produtos SET status = "Disponivel ,vendedor_id:1"')
 # con.commit()
 
 string = 'produtos'

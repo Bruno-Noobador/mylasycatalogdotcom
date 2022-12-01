@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel='stylesheet' type='text/css' media='screen' href='pagamento.css'>
-    <script scr="pagamento.js"></script>
+    <link rel='stylesheet' type='text/css' media='screen' href='{{ url_for('static', filename='Pagamento/pagamento.css') }}'>
+    <script scr="{{ url_for('static', filename='Pagamento/pagamento.js') }}"></script>
 
     <title>Forma de pagamento</title>
 </head>
@@ -12,7 +12,7 @@
         <div class="total-logo">
           <div class="total">
             <span>Total:</span>
-            <span class="total-n"> R$ 205,50 </span>
+            <span class="total-n"> R$ {{produto.valor}} </span>
           </div>
           <div class="logo">
             <h4>MyLasyCatalogDotCom.net</h4>
@@ -26,7 +26,7 @@
         </div>
       
         <div class="cont-forms">
-          <form class="form" autocomplete="off" novalidate>
+          <form class="form" autocomplete="off" novalidate action="/check_pagamento">
             <fieldset class="card-number">
               <label for="card-num">Número do cartão de crédito</label>
               <div class="flex-wrapper">
@@ -57,14 +57,14 @@
               <div class="flex-wrapper">
                 <button class="purchase"><span>Confirmar pagamento</span></button>
                 <div class="or-element"><span>- ou -<span></div>
-                <button class="applepay"><span>Faça pix</span></button>
+                <button class="applepay" onclick="location.href='/site_dev'"><span>Faça pix</span></button>
                 </div>
             </fieldset>
           </form>
           </div>
           <div class="button-cart">
             <img class="icon-cart" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/163884/icona-shop.svg">
-            <div class="product-in-cart"><span>3</span></div>
+            <div class="product-in-cart"><span>1</span></div>
           </div>
         </div>
         <div class="cont-product">

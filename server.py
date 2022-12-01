@@ -1,14 +1,16 @@
-from flask import Flask, request, render_template, send_file, send_from_directory
+from flask import Flask, request, render_template, send_file, send_from_directory, session, jsonify
 from csv import writer
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
-from libs import User, Product, parseId, getFileExtention, parseName
+from libs import User, Product, parseId, getFileExtention, parseName, parseStatus, parseVendedorId
 
 con = sqlite3.connect('database/data.db', check_same_thread=False)
 c = con.cursor()
 
 app = Flask(__name__)
+app.secret_key = '123'
+
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "database\Produtos_imgs")
 
 @app.route('/start', methods=['GET'])
@@ -32,22 +34,25 @@ def index():
     
     for produto in response:
 
+            garbage_status = produto[5]
+
             id = produto[0]
             nome = produto[1]
             valor = produto[2]
             telefone = produto[3]
             email = produto[4]
-            status = produto[5]
+            status = parseStatus (garbage_status)
+            vendedorId = parseVendedorId (garbage_status)
             filename = produto[6]
             
-            produto = Product(id, nome, valor, telefone, email, status, filename)
+            produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
 
             produtos.append(produto)
             # print(f'Filename: {produto.filename}')
 
     print(f'produtos: {produtos}')
 
-    return(render_template('Página Principal/index.html', produtos=produtos))
+    return(render_template('Página Principal/index.html', produtos=produtos, session=session))
 
 @app.route('/register_cliente', methods=['GET'])
 def index1():
@@ -79,7 +84,11 @@ def index3():
         
     print('\n' + str(reqData))
     #return('\nYou just posted.... ' + str(reqData) + '\n')
-    return('\nVendedor cadastrado com sucesso')
+    return '''
+        <script>
+                alert('Vendedor Cadastrado com sucesso!')
+                location.href = "/";
+        </script>'''
 
 @app.route('/input_clientes', methods=['POST'])
 def index4():
@@ -105,11 +114,15 @@ def index4():
 
     print('\n' + str(reqData))
     # return('\nYou just posted.... ' + str(reqData) + '\n')
-    return('\nCliente cadastrado com sucesso')
+    return '''
+        <script>
+                alert('Cliente Cadastrado com sucesso!')
+                location.href = "/";
+        </script>'''
 
 
 @app.route('/login', methods=['POST'])
-def index5():
+def login():
 
     print(request.headers)
     print(request.form)
@@ -139,7 +152,7 @@ def index5():
             return '''
             <script>
                 alert('Nenhum usuário encontrado. Tente novamente')
-                history.back()
+                location.href = "/";
             </script>'''
         
         id = parseId(response)
@@ -149,10 +162,16 @@ def index5():
         user.nome = user.getName()
         user.email = user.getEmail()
 
+    session['user'] = user.toJSON()
+
     print(user.tipo)
     print(response)
 
-    return f'logado como: {user.tipo} \n id: {user.id} \n nome: {user.nome} \n email: {user.email}'
+    return '''
+        <script>
+                alert('Usuário Logado com sucesso!')
+                location.href = "/";
+        </script>'''
 
 
 @app.route('/test', methods=['POST'])
@@ -181,16 +200,19 @@ def index6():
 
     # produto = Product (id, nome, valor, email, status)
     for produto in response:
+            
+            garbage_status = produto[5]
 
             id = produto[0]
             nome = produto[1]
             valor = produto[2]
             telefone = produto[3]
             email = produto[4]
-            status = produto[5]
+            status = parseStatus (garbage_status)
+            vendedorId = parseVendedorId (garbage_status)
             filename = produto[6]
             
-            produto = Product(id, nome, valor, telefone, email, status, filename)
+            produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
 
             produtos.append(produto)
 
@@ -205,21 +227,27 @@ def download_file(filename):
 
 @app.route('/cadastro_test', methods=['GET', 'POST'])
 def index7():
+    
+    if 'user' in session:
+        user = eval(session['user'])
+        id = user['id']
+    print(f'id: {id}')
 
     if request.method == 'GET':
         return(render_template('Produtos/produtos.html'))
 
     if request.method == 'POST':
-
+        
         print(request.headers)
         print(request.form)
         reqData = list(request.form.values())
+        print(f'id: {id}')
 
         nome = reqData[0]
         valor = reqData[1]
         telefone = reqData[2]
         email = reqData[3]
-        status = 'Disponivel'
+        status = f'Disponivel ,vendedor_id:{id}'
         # filename = "temp_name"
 
 
@@ -253,7 +281,137 @@ def index7():
         
         return send_file(savePath)
         
+
+@app.route('/perfil', methods=['GET', 'POST'])
+def perfil():
+
+    produtos = []
+
+    if "user" in session:
+        user = eval(session['user'])
+        
+        print(user)
+        name = user['nome']
+        print(f"Nome: {name}")
+        tipo = user['tipo']
+        id = user['id']
+
+        if tipo == 'vendedor':
+            c.execute(f'SELECT * FROM produtos WHERE status LIKE "%{id}"')
+            response = c.fetchall()
+
+            for produto in response:
+                garbage_status = produto[5]
+                id = produto[0]
+                nome = produto[1]
+                valor = produto[2]
+                telefone = produto[3]
+                email = produto[4]
+                status = parseStatus (garbage_status)
+                vendedorId = parseVendedorId (garbage_status)
+                filename = produto[6]
             
+                produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
+
+                produtos.append(produto)
+
+
+        if tipo == 'client':
+            c.execute(f'SELECT * FROM produtos WHERE status LIKE "%{id}"')
+            response = c.fetchall()
+
+            for produto in response:
+                garbage_status = produto[5]
+                id = produto[0]
+                nome = produto[1]
+                valor = produto[2]
+                telefone = produto[3]
+                email = produto[4]
+                status = parseStatus (garbage_status)
+                vendedorId = parseVendedorId (garbage_status)
+                filename = produto[6]
+            
+                produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
+
+                produtos.append(produto)
+
+        return render_template ('Perfil/perfil.html', user=user, produtos=produtos)
+
+    else:
+        return '''
+        <script>
+                alert('Usuario não logado. Tente Novamente.')
+                history.back()
+        </script>'''
+
+@app.route('/clean', methods=['GET'])
+def clean():
+    session.pop("user", None)
+    return '''
+        <script>
+                alert('Usuario saiu de sessão')
+                location.href = "/";
+        </script>'''
+
+@app.route('/site_dev', methods=['GET'])
+def site_em_desenvolvimento():
+    return '''
+        <script>
+                alert('Site em construção')
+                location.href = "/";
+        </script>'''
+
+@app.route('/pagamento+<produto_id>', methods=['GET'])
+def pagamento(produto_id):
+
+    if eval(session['user'])['tipo'] == "vendedor":
+        return '''
+        <script>
+                alert('Vendedores não podem fazer compras')
+                location.href = "/";
+        </script>'''
+
+    c.execute(f'SELECT * FROM produtos WHERE id = {produto_id}')
+    response = c.fetchall()
+
+    for produto in response:
+        garbage_status = produto[5]
+        id = produto[0]
+        nome = produto[1]
+        valor = produto[2]
+        telefone = produto[3]
+        email = produto[4]
+        status = parseStatus (garbage_status)
+        vendedorId = parseVendedorId (garbage_status)
+        filename = produto[6]
+
+        produto = Product(id, nome, valor, telefone, email, status, vendedorId, filename)
+    
+    session['produto'] = produto.toJSON()
+    print(eval(session['produto']))
+
+    return render_template('Pagamento/pagamento.html', produto=produto)
+
+@app.route('/check_pagamento')
+def check_pagamento():
+
+    if 'produto' in session:
+        produto = eval(session['produto'])
+        id = produto['id']
+
+    vendedor_id = produto['vendedorId']
+    cliente = eval(session['user'])
+
+    cliente_id = cliente['id']
+    c.execute(f'UPDATE produtos SET status = "Vendido ,vendedor_id:{vendedor_id}; cliente_id:{cliente_id}" WHERE id={id}')
+    con.commit()
+
+    return '''
+        <script>
+                alert('Compra realizada com sucesso')
+                location.href = "/";
+        </script>'''
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
